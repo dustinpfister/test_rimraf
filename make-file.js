@@ -6,25 +6,33 @@ var make = (function () {
 
     return {
 
-        files : function (end, ct, done) {
+        files: function (end, ct, done) {
 
             end = end || '.txt';
             ct = ct || 10;
             done = done || function () {};
 
-            fs.writeFile('./source/test_' + i + end, 'test data', 'utf8', function () {
+            fs.writeFile('./source/test_' + i + end, 'test data', 'utf8', function (e) {
 
-                console.log('we have a file.');
+                if (e) {
 
-                if (i < 10) {
-
-                    i += 1;
-
-                    make.files(end, ct);
+                    console.log(e);
 
                 } else {
 
-                    done();
+                    console.log('we have a file.');
+
+                    if (i < 10) {
+
+                        i += 1;
+
+                        make.files(end, ct);
+
+                    } else {
+
+                        done();
+
+                    }
 
                 }
 
