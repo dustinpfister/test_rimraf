@@ -11,4 +11,28 @@ No way am I going to pollute the npmjs name space with this, if you actualy want
 ```
 $ git clone https://github.com/dustinpfister/test_rimraf
 $ cd test_rimraf
+$ npm install
 ```
+
+## 1) Make files, list files, rimraf the files
+
+In the test_rimraf folder are make.js, list.js, and rimraf.js scripts.  There is also my plain.js script that I made just to get a feel of how big of a deal it is to make something like is from the floor up in node.js.
+
+Use the make script to create a source folder that has a bunch of *.txt files in it. Once that is done use the list script that will list the contents of that folder if it is there. Finnaly use the rimraf script to clear the source folder of all *.txt files.
+
+```
+$ node make
+$ node list
+[ 'test_1.txt',
+  'test_11.txt',
+  'test_3.txt',
+  'test_5.txt',
+  'test_7.txt',
+  'test_9.txt' ]
+$ node rimraf
+done
+$ node list
+[]
+```
+
+Thats the basic deal with rimraf.
