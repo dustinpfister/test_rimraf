@@ -1,58 +1,99 @@
 var fs = require('fs'),
+path = require('path'),
 mkdirp = require('mkdirp');
 
-var make = (function () {
+var mkPath = function (p) {
 
-    var i = 0;
+    return new Promise(function (resolve, reject) {
 
-    return {
+        mkdirp(p, function (e) {
 
-        files: function (end, ct, done) {
+            if (e) {
 
-            end = end || '.txt';
-            ct = ct || 10;
-            done = done || function () {};
+                reject(e);
 
-            mkdirp('./source', function () {
+            }
 
-                fs.writeFile('./source/test_' + i + end, 'test data', 'utf8', function (e) {
+            resolve();
+
+        });
+
+    });
+
+},
+
+mkFile = function (p, end, prefix, data) {
+
+    p = p || '.source';
+    end = end || '.txt';
+    prefix = prefix || 'test_';
+    data = data || 'test_data';
+
+    return new Promise(function (resolve, reject) {
+
+        mkPath(p).catch (function (e) {
+
+            reject(e);
+
+        })
+            .then(function () {
+
+                fs.writeFile(path.join(p, prefix + end), data, 'utf-8', function (e) {
 
                     if (e) {
 
-                        console.log(e);
-
-                    } else {
-
-                        console.log('we have a file.');
-
-                        if (i < 10) {
-
-                            i += 1;
-
-                            make.files(end, ct);
-
-                        } else {
-
-                            done();
-
-                        }
+                        reject(e)
 
                     }
+
+                    resolve();
 
                 });
 
             });
 
+    });
+
+},
+
+mkJunk = function (options) {
+
+    options = options || {};
+
+    var p = options.p || './source',
+    type = options.type || '.txt',
+    count = options.count || 10,
+    prefix = options.prefix || 'test_';
+
+    var i = 0;
+    var make = function () {
+
+        var fix = prefix + i;
+
+        mkFile(p, type, fix).then(function () {
+
+            console.log(p + fix + type);
+
             i += 1;
 
-        }
+            if (i < count) {
+
+                make();
+
+            }
+
+        }).catch (function (e) {
+
+            console.log(e)
+
+        });
 
     };
 
-}
-    ());
+    make();
 
-make.files();
+};
 
-// writeFiles('.txt');
-// writeFiles('.html');
+mkJunk();
+
+//mkFile('./source/', '.txt', 'test_1').then(function(){
