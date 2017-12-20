@@ -1,4 +1,5 @@
-var fs = require('fs');
+var fs = require('fs'),
+mkdirp = require('mkdirp');
 
 var make = (function () {
 
@@ -12,29 +13,33 @@ var make = (function () {
             ct = ct || 10;
             done = done || function () {};
 
-            fs.writeFile('./source/test_' + i + end, 'test data', 'utf8', function (e) {
+            mkdirp('./source', function () {
 
-                if (e) {
+                fs.writeFile('./source/test_' + i + end, 'test data', 'utf8', function (e) {
 
-                    console.log(e);
+                    if (e) {
 
-                } else {
-
-                    console.log('we have a file.');
-
-                    if (i < 10) {
-
-                        i += 1;
-
-                        make.files(end, ct);
+                        console.log(e);
 
                     } else {
 
-                        done();
+                        console.log('we have a file.');
+
+                        if (i < 10) {
+
+                            i += 1;
+
+                            make.files(end, ct);
+
+                        } else {
+
+                            done();
+
+                        }
 
                     }
 
-                }
+                });
 
             });
 
