@@ -21,14 +21,18 @@ In the test_rimraf folder are make.js, list.js, and rimraf.js scripts.  There is
 Use the make script to create a source folder that has a bunch of *.txt files in it. Once that is done use the list script that will list the contents of that folder if it is there. Finnaly use the rimraf script to clear the source folder of all *.txt files.
 
 ```
-$ node make
+$ node make-basic
 $ node list
-[ 'test_1.txt',
-  'test_11.txt',
+[ 'test_0.txt',
+  'test_1.txt',
+  'test_2.txt',
   'test_3.txt',
+  'test_4.txt',
   'test_5.txt',
+  'test_6.txt',
   'test_7.txt',
-  'test_9.txt' ]
+  'test_8.txt',
+  'test_9.txt']
 $ node rimraf
 done
 $ node list
